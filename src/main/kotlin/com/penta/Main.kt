@@ -1,6 +1,6 @@
 package com.penta
 
-import com.penta.views.AutoTyperApp
+import com.penta.views.AutoTypeApp
 import javafx.application.Application
 
 class Main {
@@ -9,7 +9,7 @@ class Main {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            Application.launch(AutoTyperApp::class.java)
+            Application.launch(AutoTypeApp::class.java)
         }
     }
 }
