@@ -36,6 +36,7 @@ class AutoTypeApp : Application(), CoroutineScope {
         primaryStage.show()
         primaryStage.setOnCloseRequest { job.cancel() }
         launch {
+            //delay(5000L)
             AutoType("/input.data").start().collect { codeArea.replaceText(it) }
         }
     }

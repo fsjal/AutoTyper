@@ -14,7 +14,7 @@ import java.nio.file.Paths
 @ExperimentalCoroutinesApi
 class AutoType(private val input: String) {
 
-    private val skeleton by lazy { "(\\d+)(\\|*)( {3})?(.*)"
+    private val skeleton by lazy { "(\\d+)(\\|*)( {0,3})?(.*)"
         .toRegex()
         .let { pattern ->
             Files.readAllLines(Paths.get(javaClass.getResource(input).toURI()))
@@ -36,9 +36,8 @@ class AutoType(private val input: String) {
             if (--duplication > 0) {
                 val itemIndex = bones.indexOf(currentLine)
                 val line = bones.removeAt(itemIndex)
-
                 bones.add(itemIndex, currentLine)
-                s.append(line.value + (0..100).joinToString("") { " " })
+                s.append(line.value)
             } else {
                 bones += currentLine
             }
@@ -59,11 +58,16 @@ class AutoType(private val input: String) {
                     }
                 }
             } else {
-                currentLine.value.forEachIndexed { index, c ->
+                val copied = s.toString()
+                val filtered = currentLine.value
+                    .mapIndexed { index, c -> index to c }
+                    .filter{ (index, c) -> c != copied[index] }
+
+                filtered.forEach { (index, c) ->
                     s[index] = c
                     str[currentIndex] = s.toString()
                     emit(str.joinToString("\n") { it })
-                    delay(25)
+                    delay(75)
                 }
                 str[currentIndex] = currentLine.value
                 emit(str.joinToString("\n") { it })
@@ -74,5 +78,5 @@ class AutoType(private val input: String) {
                 bones.sortBy { it.lineNumber }
             }
         }
-    }.flowOn(Dispatchers.IO)
+    }
 }
