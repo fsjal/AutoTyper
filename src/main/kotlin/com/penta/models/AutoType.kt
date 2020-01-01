@@ -4,6 +4,7 @@ import com.penta.entities.LineItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.lang.StringBuilder
@@ -18,7 +19,6 @@ class AutoType(private val input: String) {
         .let { pattern ->
             Files.readAllLines(Paths.get(javaClass.getResource(input).toURI()))
                 .mapIndexed { index, line ->
-                    println(pattern.matches(line))
                     pattern.find(line)?.run { LineItem(index, groupValues[1].toInt(), groupValues[2].length, groupValues[4]) }!!
                 }
         }
@@ -28,23 +28,46 @@ class AutoType(private val input: String) {
     fun start() = flow {
         val bones = mutableListOf<LineItem>()
         // TODO add duplicate lines
+        var duplication = 0
 
         skeleton.forEach { currentLine ->
             val str = mutableListOf<String>()
             val s = StringBuilder()
 
-            bones += currentLine
+            if (--duplication > 0) {
+                val line = bones.removeAt(currentLine.lineNumber)
+                bones.add(currentLine.lineNumber, currentLine)
+                s.append(line.value + (0..100).joinToString("") { " " })
+            } else {
+                bones += currentLine
+            }
             bones.sortBy { it.lineNumber }
             val currentIndex = bones.indexOf(currentLine)
             bones.filter { it != currentLine }.forEach { str += it.value }
             str.add(currentIndex, "")
-            currentLine.value.forEachIndexed { index, c ->
-                s.insert(index, c)
-                str[currentIndex] = s.toString()
+            if (s.isEmpty()) {
+                currentLine.value.forEachIndexed { index, c ->
+                    s.insert(index, c)
+                    str[currentIndex] = s.toString()
+                    emit(str.joinToString("\n") { it })
+                    delay(75)
+                }
+            } else {
+                currentLine.value.forEachIndexed { index, c ->
+                    s[index] = c
+                    println(s)
+                    str[currentIndex] = s.toString()
+                    emit(str.joinToString("\n") { it })
+                    delay(25)
+                }
+                str[currentIndex] = currentLine.value
                 emit(str.joinToString("\n") { it })
-                delay(50)
+            }
+            if (currentLine.duplication != 0) {
+                duplication = currentLine.duplication
+                repeat(currentLine.duplication - 1) { bones += currentLine.copy(lineNumber = currentLine.lineNumber + it + 1) }
+                bones.sortBy { it.lineNumber }
             }
         }
     }.flowOn(Dispatchers.IO)
-
 }
