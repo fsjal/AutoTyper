@@ -78,5 +78,5 @@ class AutoType(private val input: String) {
                 bones.sortBy { it.lineNumber }
             }
         }
-    }
+    }.flowOn(Dispatchers.IO)
 }
