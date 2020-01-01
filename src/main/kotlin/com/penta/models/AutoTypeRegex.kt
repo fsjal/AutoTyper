@@ -1,6 +1,4 @@
-package com.penta.views
-
-import java.util.regex.Pattern
+package com.penta.models
 
 object AutoTypeRegex {
 

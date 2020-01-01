@@ -13,15 +13,13 @@ import java.nio.file.Paths
 @ExperimentalCoroutinesApi
 class AutoType(private val input: String) {
 
-    private val skeleton by lazy { "(\\d*)\\s?(.*)"
+    private val skeleton by lazy { "(\\d+)(\\|*)( {3})?(.*)"
         .toRegex()
         .let { pattern ->
-            Files
-                .readAllLines(Paths.get(javaClass.getResource(input).toURI()))
+            Files.readAllLines(Paths.get(javaClass.getResource(input).toURI()))
                 .mapIndexed { index, line ->
-                    pattern
-                        .find(line)
-                        ?.run { LineItem(groupValues[1].toInt(), index, groupValues[2]) }!!
+                    println(pattern.matches(line))
+                    pattern.find(line)?.run { LineItem(index, groupValues[1].toInt(), groupValues[2].length, groupValues[4]) }!!
                 }
         }
         .sortedBy { it.priority }
@@ -30,7 +28,7 @@ class AutoType(private val input: String) {
     fun start() = flow {
         val bones = mutableListOf<LineItem>()
         // TODO add duplicate lines
-        // TODO solve bug when no choreography number exists
+
         skeleton.forEach { currentLine ->
             val str = mutableListOf<String>()
             val s = StringBuilder()

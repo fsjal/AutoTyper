@@ -1,8 +1,8 @@
 package com.penta.views
 
 import com.penta.models.AutoType
-import com.penta.views.AutoTypeRegex.PATTERN
-import com.penta.views.AutoTypeRegex.STYLES
+import com.penta.models.AutoTypeRegex.PATTERN
+import com.penta.models.AutoTypeRegex.STYLES
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.layout.StackPane
@@ -34,6 +34,7 @@ class AutoTypeApp : Application(), CoroutineScope {
         primaryStage.scene = scene
         primaryStage.title = "AutoType"
         primaryStage.show()
+        primaryStage.setOnCloseRequest { job.cancel() }
         launch {
             AutoType("/input.data").start().collect { codeArea.replaceText(it) }
         }
