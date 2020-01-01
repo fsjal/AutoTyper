@@ -27,7 +27,6 @@ class AutoType(private val input: String) {
 
     fun start() = flow {
         val bones = mutableListOf<LineItem>()
-        // TODO add duplicate lines
         var duplication = 0
 
         skeleton.forEach { currentLine ->
@@ -35,8 +34,10 @@ class AutoType(private val input: String) {
             val s = StringBuilder()
 
             if (--duplication > 0) {
-                val line = bones.removeAt(currentLine.lineNumber)
-                bones.add(currentLine.lineNumber, currentLine)
+                val itemIndex = bones.indexOf(currentLine)
+                val line = bones.removeAt(itemIndex)
+
+                bones.add(itemIndex, currentLine)
                 s.append(line.value + (0..100).joinToString("") { " " })
             } else {
                 bones += currentLine
@@ -46,16 +47,20 @@ class AutoType(private val input: String) {
             bones.filter { it != currentLine }.forEach { str += it.value }
             str.add(currentIndex, "")
             if (s.isEmpty()) {
-                currentLine.value.forEachIndexed { index, c ->
-                    s.insert(index, c)
-                    str[currentIndex] = s.toString()
+                if (currentLine.value.trim().isEmpty()) {
+                    str[currentIndex] = "\n"
                     emit(str.joinToString("\n") { it })
-                    delay(75)
+                } else {
+                    currentLine.value.forEachIndexed { index, c ->
+                        s.insert(index, c)
+                        str[currentIndex] = s.toString()
+                        emit(str.joinToString("\n") { it })
+                        delay(75)
+                    }
                 }
             } else {
                 currentLine.value.forEachIndexed { index, c ->
                     s[index] = c
-                    println(s)
                     str[currentIndex] = s.toString()
                     emit(str.joinToString("\n") { it })
                     delay(25)
