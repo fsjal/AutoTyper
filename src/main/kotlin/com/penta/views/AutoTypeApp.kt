@@ -28,7 +28,7 @@ class AutoTypeApp : Application(), CoroutineScope {
     override fun start(primaryStage: Stage) {
         codeArea.paragraphGraphicFactory = LineNumberFactory.get(codeArea)
         codeArea.multiPlainChanges().subscribe { codeArea.setStyleSpans(0, computeHighlighting(codeArea.text)) }
-        codeArea.style = "-fx-font-size: 1.5em;"
+        codeArea.style = "-fx-font-size: 4em;"
         val scene = Scene(StackPane(VirtualizedScrollPane(codeArea)), 1280.0, 720.0)
         scene.stylesheets.add(javaClass.getResource("/css/java-keywords.css").toExternalForm())
         primaryStage.scene = scene

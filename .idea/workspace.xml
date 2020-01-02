@@ -4,6 +4,7 @@
     <list default="true" id="917d6c32-8f46-4ab9-aaf3-78e48bb97d19" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/penta/models/AutoType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/penta/models/AutoType.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/penta/views/AutoTypeApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/penta/views/AutoTypeApp.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577920606114</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Flows on IO">
+      <created>1577920712919</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1577920712919</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -154,41 +162,42 @@
     <MESSAGE value="Duplication working" />
     <MESSAGE value="Duplication bug fixed" />
     <MESSAGE value="Flickering bug fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Flickering bug fixed" />
+    <MESSAGE value="Flows on IO" />
+    <option name="LAST_COMMIT_MESSAGE" value="Flows on IO" />
   </component>
   <component name="WindowStateProjectService">
     <state x="715" y="315" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1577888942822">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="715" y="315" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1050@0.0.1920.1050" timestamp="1577888942822" />
-    <state x="742" y="241" key="#com.intellij.ide.util.MemberChooser" timestamp="1577872074140">
+    <state x="742" y="241" key="#com.intellij.ide.util.MemberChooser" timestamp="1577962965832">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="742" y="241" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1050@0.0.1920.1050" timestamp="1577872074140" />
+    <state x="742" y="241" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1050@0.0.1920.1050" timestamp="1577962965832" />
     <state x="739" y="35" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog" timestamp="1577879848067">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="739" y="35" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1577879848067" />
-    <state x="589" y="25" key="CommitChangelistDialog2" timestamp="1577920604925">
+    <state x="589" y="25" key="CommitChangelistDialog2" timestamp="1577920712173">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="589" y="25" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1577920604925" />
-    <state width="1877" height="222" key="GridCell.Tab.0.bottom" timestamp="1577920616587">
+    <state x="589" y="25" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1577920712173" />
+    <state width="1877" height="222" key="GridCell.Tab.0.bottom" timestamp="1577964416115">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="222" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1577920616587" />
-    <state width="1877" height="222" key="GridCell.Tab.0.center" timestamp="1577920616587">
+    <state width="1877" height="222" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1577964416115" />
+    <state width="1877" height="222" key="GridCell.Tab.0.center" timestamp="1577964416115">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="222" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1577920616587" />
-    <state width="1877" height="222" key="GridCell.Tab.0.left" timestamp="1577920616587">
+    <state width="1877" height="222" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1577964416115" />
+    <state width="1877" height="222" key="GridCell.Tab.0.left" timestamp="1577964416115">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="222" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1577920616587" />
-    <state width="1877" height="222" key="GridCell.Tab.0.right" timestamp="1577920616587">
+    <state width="1877" height="222" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1577964416115" />
+    <state width="1877" height="222" key="GridCell.Tab.0.right" timestamp="1577964416115">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="222" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1577920616587" />
+    <state width="1877" height="222" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1577964416115" />
     <state width="1877" height="372" key="GridCell.Tab.1.bottom" timestamp="1577917471588">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -209,17 +218,17 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="461" y="168" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1577871868689" />
-    <state x="552" y="254" key="Vcs.Push.Dialog.v2" timestamp="1577889645063">
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2" timestamp="1577920722149">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1050@0.0.1920.1050" timestamp="1577889645063" />
-    <state x="636" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1577920682248">
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1050@0.0.1920.1050" timestamp="1577920722149" />
+    <state x="636" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1577958254658">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="636" y="349" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1577920682248" />
-    <state width="707" height="391" key="javadoc.popup.new" timestamp="1577919813584">
+    <state x="636" y="349" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1577958254658" />
+    <state width="707" height="391" key="javadoc.popup.new" timestamp="1577963959151">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="707" height="391" key="javadoc.popup.new/0.0.1920.1050@0.0.1920.1050" timestamp="1577919813584" />
+    <state width="707" height="391" key="javadoc.popup.new/0.0.1920.1050@0.0.1920.1050" timestamp="1577963959151" />
   </component>
 </project>
