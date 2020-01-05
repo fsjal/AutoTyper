@@ -28,98 +28,94 @@ class AutoType(private val input: String) {
     private val output = mutableListOf<String>()
     private val stringBuilder = StringBuilder()
 
-    fun start() = flow<String> {
+    fun start() = flow<Pair<Int, String>> {
         var duplication = 0
 
         skeleton.forEach { currentLine ->
             output.clear()
             stringBuilder.clear()
-            val task: CommonTask =  if (--duplication > 0) DuplicationTask() else NormalTask()
+            val task =  DefaultTask(if (--duplication > 0) DuplicationTask() else NormalTask())
 
-            val currentIndex = task.process(currentLine)
-            task.print(currentLine, currentIndex, this)
-            task.checkDuplication(currentLine)?.let { duplication = it }
+            task.process(currentLine)
+            task.print(currentLine, postProcess(currentLine), this)
+            checkDuplication(currentLine)?.let { duplication = it }
         }
     }.flowOn(Dispatchers.IO)
 
+    private fun postProcess(currentLine: LineItem): Int {
+        bones.sortBy { it.lineNumber }
+        val currentIndex = bones.indexOf(currentLine)
+        bones.filter { it != currentLine }.forEach { output += it.value }
+        output.add(currentIndex, "")
+
+        return currentIndex
+    }
+
+    private fun checkDuplication(currentLine: LineItem): Int? {
+        if (currentLine.duplication != 0) {
+            repeat(currentLine.duplication - 1) {
+                bones += currentLine.copy(priority = currentLine.priority + it + 1)
+            }
+            bones.sortBy { it.lineNumber }
+            return currentLine.duplication
+        }
+        return null
+    }
+
+
     interface Task {
 
-        fun process(currentLine: LineItem): Int
+        fun process(currentLine: LineItem)
 
-        suspend fun print(currentLine: LineItem, currentIndex: Int, flow: FlowCollector<String>)
+        suspend fun print(currentLine: LineItem, currentIndex: Int, flow: FlowCollector<Pair<Int, String>>)
     }
 
-    abstract inner class CommonTask : Task {
+    inner class NormalTask : Task {
 
-        override fun process(currentLine: LineItem): Int {
-            bones.sortBy { it.lineNumber }
-            val currentIndex = bones.indexOf(currentLine)
-            bones.filter { it != currentLine }.forEach { output += it.value }
-            output.add(currentIndex, "")
-
-            return currentIndex
-        }
-
-        fun checkDuplication(currentLine: LineItem): Int? {
-            if (currentLine.duplication != 0) {
-                repeat(currentLine.duplication - 1) {
-                    bones += currentLine.copy(lineNumber = currentLine.lineNumber + it + 1)
-                }
-                bones.sortBy { it.lineNumber }
-                return currentLine.duplication
-            }
-            return null
-        }
-
-    }
-
-    inner class NormalTask : CommonTask() {
-
-        override fun process(currentLine: LineItem): Int {
+        override fun process(currentLine: LineItem) {
             bones += currentLine
-            return super.process(currentLine)
         }
 
-        override suspend fun print(currentLine: LineItem, currentIndex: Int, flow: FlowCollector<String>) {
+        override suspend fun print(currentLine: LineItem, currentIndex: Int, flow: FlowCollector<Pair<Int, String>>) {
             if (currentLine.value.trim().isEmpty()) { // if it's an empty line
                 output[currentIndex] = "\n"
-                flow.emit(output.joinToString("\n") { it })
+                flow.emit(currentIndex to output.joinToString("\n") { it })
             } else { // normal print
                 currentLine.value.forEachIndexed { index, c ->
                     stringBuilder.insert(index, c)
                     output[currentIndex] = stringBuilder.toString()
-                    flow.emit(output.joinToString("\n") { it })
+                    flow.emit(currentIndex to output.joinToString("\n") { it })
                     delay(75)
                 }
             }
         }
     }
 
-    inner class DuplicationTask : CommonTask() {
+    inner class DuplicationTask : Task {
 
-        override fun process(currentLine: LineItem): Int {
+        override fun process(currentLine: LineItem) {
             val itemIndex = bones.indexOf(currentLine)
             val removedLine = bones.removeAt(itemIndex)
             bones.add(itemIndex, currentLine)
             stringBuilder.append(removedLine.value)
-
-            return super.process(currentLine)
         }
 
-        override suspend fun print(currentLine: LineItem, currentIndex: Int, flow: FlowCollector<String>) {
+        override suspend fun print(currentLine: LineItem, currentIndex: Int, flow: FlowCollector<Pair<Int, String>>) {
             val copied = stringBuilder.toString()
-            val filtered = currentLine.value
+            val filtered = currentLine.value.take(copied.length)
                 .mapIndexed { index, c -> index to c }
                 .filter{ (index, c) -> c != copied[index] }
 
             filtered.forEach { (index, c) ->
                 stringBuilder[index] = c
                 output[currentIndex] = stringBuilder.toString()
-                flow.emit(output.joinToString("\n") { it })
+                flow.emit(currentIndex to output.joinToString("\n") { it })
                 delay(75)
             }
             output[currentIndex] = currentLine.value
-            flow.emit(output.joinToString("\n") { it })
+            flow.emit(currentIndex to output.joinToString("\n") { it })
         }
     }
+
+    class DefaultTask(task: Task) : Task by task
 }
